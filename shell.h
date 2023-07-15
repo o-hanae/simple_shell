@@ -96,3 +96,59 @@ char *args_acq(char *line, int *exec);
 int args_run(char **args, char **ahead, int *exec);
 int args_check(char **args);
 int args_handle(int *exec);
+/** builtins function **/
+int parv_help(char **args, char __attribute__((__unused__)) **ahead);
+int (*inbuilt_get(char *command))(char **args, char **ahead);
+int parv_exit(char **args, char **ahead);
+int parv_env(char **args, char __attribute__((__unused__)) **ahead);
+int parv_setenv(char **args, char __attribute__((__unused__)) **ahead);
+int parv_unsetenv(char **args, char __attribute__((__unused__)) **ahead);
+int parv_alias(char **args, char __attribute__((__unused__)) **ahead);
+int parv_cd(char **args, char __attribute__((__unused__)) **ahead);
+
+/** string function **/
+int p_strncmp(const char *sr1, const char *sr2, size_t w);
+int p_strlent(const char *sr);
+char *p_strchr(char *sr, char k);
+char *p_strcat(char *destination, const char *source);
+char *p_strncat(char *dest, const char *src, size_t w);
+char *p_strcpy(char *dest, const char *src);
+int p_strspn(char *sr, char *valid);
+int p_strcmp(char *sr1, char *sr2);
+
+/** handle errors **/
+int err_create(char **args, int erro);
+char *err_env(char **args);
+char *err_uno(char **args);
+char *err_exit(char **args);
+char *err_cd(char **args);
+char *err_syntax(char **args);
+char *err_pa(char **args);
+char *err_rv(char **args);
+
+/** inbuilt assist **/
+char **p_getenv(const char *var);
+void env_free(void);
+char **p_copyenv(void);
+
+/** linkedlist assist **/
+alias_t *aliasend_add(alias_t **top, char *var_name, char *val);
+void list_free(link_t *top);
+void alias_freelist(alias_t *top);
+link_t *core_add(link_t **top, char *dir);
+
+int file_commandproc(char *filePath, int *exec);
+
+/** the void **/
+
+void help_all(void);
+void help_alias(void);
+void help_cd(void);
+void help_exit(void);
+void help_help(void);
+void help_env(void);
+void help_setenv(void);
+void help_unsetenv(void);
+void help_history(void);
+
+#endif
