@@ -2,11 +2,14 @@
 
 char *name;
 int hist_count;
+
 /**
  * main - entry point of the UNIX shell
  *
- * @argc:  count number
- * @argv:  vector array
+ * Description:
+ * This function reads the cmmnad line argument and exectute them
+ * @argc: argument count number
+ * @argv: argument vector array
  *
  * Return: value of last command
  *
@@ -24,24 +27,24 @@ int main(int argc, char *argv[])
 	aliaz = NULL;
 	signal(SIGINT, sigHandler);
 	*exec = 0;
-	environ = p_copyenv();
+	environ = p_copyenv();/** copy env var **/
 	if (!environ)
 		exit(-100);
-	if (argc != 1)
+	if (argc != 1)/** check file cmd **/
 	{
 		exitStat = file_commandproc(argv[1], exec);
 		env_free();
 		alias_freelist(aliaz);
 		return (*exec);
 	}
-	if (!isatty(STDIN_FILENO))
+	if (!isatty(STDIN_FILENO))/** check non_int mode **/
 	{
 		while (exitStat != FILE_END && exitStat != EXIT)
 			exitStat = args_handle(exec);
 		env_free(), alias_freelist(aliaz);
 		return (*exec);
 	}
-	while (1)
+	while (1)/** interactive **/
 	{
 		write(STDOUT_FILENO, prompt, 10);
 		exitStat = args_handle(exec);
@@ -58,10 +61,10 @@ int main(int argc, char *argv[])
 }
 
 /**
- * sigHandler -  printing a new prompt
+ * sigHandler - handles the SIGNINT signal printing a new prompt
  *
  * Description:
- * @sign: return number
+ * @sign: signal number
  *
  * Return: void
  *
